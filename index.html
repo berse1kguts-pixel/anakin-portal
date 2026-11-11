@@ -622,6 +622,23 @@
         card.style.setProperty('--mouse-y', `${y}px`);
       });
     });
+
+    // 自动保活心跳：在用户打开聚合门户时，自动唤醒并保持后端服务活跃（避免冷休眠）
+    const PING_TARGETS = [
+      'https://anaiot-backend.onrender.com/',
+      'https://anaiot-core.onrender.com/actuator/health',
+      'https://mymem-wlxw.onrender.com/'
+    ];
+
+    function pingServices() {
+      PING_TARGETS.forEach(url => {
+        fetch(url, { mode: 'no-cors', cache: 'no-store' }).catch(() => {});
+      });
+    }
+
+    // 页面加载即刻预热，且每隔 5 分钟在后台静默保活一次
+    pingServices();
+    setInterval(pingServices, 5 * 60 * 1000);
   </script>
 </body>
 </html>
