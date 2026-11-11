@@ -3,723 +3,559 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Anakin Hub | 个人技术作品与服务矩阵</title>
+  <title>Anakin · Systems & Engineering Matrix</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #090d16;
-      --card-bg: rgba(18, 24, 38, 0.7);
-      --card-border: rgba(255, 255, 255, 0.08);
-      --card-hover-border: rgba(99, 102, 241, 0.4);
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --primary: #6366f1;
-      --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
-      --accent-cyan: #06b6d4;
-      --accent-emerald: #10b981;
-      --accent-amber: #f59e0b;
-      --glow-shadow: 0 0 40px -10px rgba(99, 102, 241, 0.3);
+      --bg: #000000;
+      --card-bg: rgba(10, 10, 10, 0.7);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(255, 255, 255, 0.22);
+      --text-primary: #ededed;
+      --text-secondary: #888888;
+      --text-tertiary: #555555;
+      --accent: #ffffff;
+      --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     body {
       background-color: var(--bg);
-      color: var(--text-main);
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: var(--text-primary);
+      font-family: var(--font-sans);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       overflow-x: hidden;
       position: relative;
+      selection-background-color: #333;
     }
 
-    /* Ambient Background Glows */
-    .ambient-bg {
+    ::selection {
+      background: #262626;
+      color: #fff;
+    }
+
+    /* Vercel subtle top beam & grid pattern */
+    .background-pattern {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      overflow: hidden;
-      z-index: 0;
+      inset: 0;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(ellipse 80% 50% at 50% 0%, #000 60%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 80% 50% at 50% 0%, #000 60%, transparent 100%);
       pointer-events: none;
+      z-index: 0;
     }
 
-    .glow-orb-1 {
+    .top-light-beam {
       position: absolute;
-      top: -10%;
-      left: 15%;
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
-      border-radius: 50%;
-      filter: blur(80px);
-    }
-
-    .glow-orb-2 {
-      position: absolute;
-      bottom: 10%;
-      right: 10%;
-      width: 500px;
-      height: 500px;
-      background: radial-gradient(circle, rgba(236, 72, 153, 0.12) 0%, transparent 70%);
-      border-radius: 50%;
-      filter: blur(90px);
-    }
-
-    .glow-orb-3 {
-      position: absolute;
-      top: 40%;
-      left: 60%;
-      width: 450px;
-      height: 450px;
-      background: radial-gradient(circle, rgba(6, 182, 212, 0.12) 0%, transparent 70%);
-      border-radius: 50%;
-      filter: blur(80px);
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1000px;
+      height: 280px;
+      background: radial-gradient(50% 100% at 50% 0%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.02) 50%, transparent 100%);
+      pointer-events: none;
+      z-index: 0;
     }
 
     .container {
-      max-width: 1240px;
+      max-width: 1120px;
       margin: 0 auto;
-      padding: 40px 24px 60px;
+      padding: 80px 24px 100px;
       position: relative;
       z-index: 1;
       width: 100%;
     }
 
-    /* Header Profile */
+    /* Minimal Linear Header */
     header {
-      margin-bottom: 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 20px;
+      margin-bottom: 64px;
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-    }
-
-    .avatar-wrapper {
-      position: relative;
-    }
-
-    .avatar {
-      width: 68px;
-      height: 68px;
-      border-radius: 20px;
-      background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
-      border: 2px solid rgba(255, 255, 255, 0.15);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 28px;
-      font-weight: 800;
-      color: #818cf8;
-      box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.4);
-    }
-
-    .status-badge {
-      position: absolute;
-      bottom: -2px;
-      right: -2px;
-      width: 16px;
-      height: 16px;
-      background: var(--accent-emerald);
-      border: 3px solid var(--bg);
-      border-radius: 50%;
-    }
-
-    .brand-info h1 {
-      font-size: 26px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .brand-info h1 span.gradient-text {
-      background: var(--primary-gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .brand-info p {
-      font-size: 14px;
-      color: var(--text-muted);
-      margin-top: 4px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .radar-tag {
+    .status-pill {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: rgba(16, 185, 129, 0.1);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      padding: 6px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      padding: 4px 12px;
       border-radius: 9999px;
-      font-size: 13px;
-      color: #34d399;
-      font-weight: 600;
+      font-size: 12px;
+      font-family: var(--font-mono);
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+      backdrop-filter: blur(10px);
     }
 
-    .pulse-dot {
-      width: 8px;
-      height: 8px;
-      background: #34d399;
+    .dot-live {
+      width: 6px;
+      height: 6px;
+      background: #10b981;
       border-radius: 50%;
-      box-shadow: 0 0 10px #34d399;
-      animation: pulse 2s infinite;
+      box-shadow: 0 0 8px #10b981;
     }
 
-    @keyframes pulse {
-      0% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(1.3); }
-      100% { opacity: 1; transform: scale(1); }
+    .hero-title {
+      font-size: 44px;
+      font-weight: 600;
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+      color: #fff;
+      margin-bottom: 16px;
     }
 
-    /* Bento Grid Layout */
-    .bento-grid {
+    .hero-title span {
+      color: var(--text-secondary);
+      font-weight: 400;
+    }
+
+    .hero-sub {
+      font-size: 16px;
+      color: var(--text-secondary);
+      max-width: 640px;
+      line-height: 1.6;
+      font-weight: 400;
+    }
+
+    /* Grid Layout */
+    .grid {
       display: grid;
       grid-template-columns: repeat(12, 1fr);
-      gap: 20px;
+      gap: 16px;
     }
 
-    /* Card Standard Styles */
-    .card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 24px;
-      padding: 28px;
-      backdrop-filter: blur(20px);
-      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    /* Linear/Vercel Spotlight Card */
+    .spotlight-card {
       position: relative;
-      overflow: hidden;
+      background: var(--card-bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 32px;
+      backdrop-filter: blur(12px);
+      transition: border-color 0.3s ease, background 0.3s ease;
       display: flex;
       flex-direction: column;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
     }
 
-    .card:hover {
-      border-color: var(--card-hover-border);
-      transform: translateY(-4px);
-      box-shadow: var(--glow-shadow);
-    }
-
-    .card::before {
+    /* Spotlight gradient hover effect */
+    .spotlight-card::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(
+        800px circle at var(--mouse-x, -500px) var(--mouse-y, -500px),
+        rgba(255, 255, 255, 0.06),
+        transparent 40%
+      );
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+      z-index: 1;
     }
 
-    /* Bento Spans */
-    .span-8 { grid-column: span 8; }
-    .span-4 { grid-column: span 4; }
-    .span-6 { grid-column: span 6; }
-    .span-12 { grid-column: span 12; }
+    .spotlight-card:hover {
+      border-color: var(--border-hover);
+    }
 
-    /* Card Interiors */
-    .card-top {
+    .spotlight-card:hover::before {
+      opacity: 1;
+    }
+
+    .col-8 { grid-column: span 8; }
+    .col-4 { grid-column: span 4; }
+    .col-6 { grid-column: span 6; }
+    .col-12 { grid-column: span 12; }
+
+    /* Card Contents */
+    .card-content {
+      position: relative;
+      z-index: 2;
       display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 20px;
+      flex-direction: column;
+      height: 100%;
     }
 
-    .icon-box {
-      width: 52px;
-      height: 52px;
-      border-radius: 16px;
+    .card-meta {
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      color: #fff;
+      justify-content: space-between;
+      margin-bottom: 24px;
     }
 
-    .ib-indigo { background: linear-gradient(135deg, #4f46e5, #818cf8); box-shadow: 0 8px 20px -4px rgba(79, 70, 229, 0.5); }
-    .ib-cyan { background: linear-gradient(135deg, #0891b2, #06b6d4); box-shadow: 0 8px 20px -4px rgba(6, 182, 212, 0.5); }
-    .ib-rose { background: linear-gradient(135deg, #e11d48, #f43f5e); box-shadow: 0 8px 20px -4px rgba(225, 29, 72, 0.5); }
-    .ib-emerald { background: linear-gradient(135deg, #059669, #10b981); box-shadow: 0 8px 20px -4px rgba(16, 185, 129, 0.5); }
-    .ib-amber { background: linear-gradient(135deg, #d97706, #f59e0b); box-shadow: 0 8px 20px -4px rgba(217, 119, 6, 0.5); }
-    .ib-violet { background: linear-gradient(135deg, #7c3aed, #a855f7); box-shadow: 0 8px 20px -4px rgba(124, 58, 237, 0.5); }
+    .badge {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
 
-    .service-status {
-      display: flex;
+    .badge-featured {
+      color: #ededed;
+      display: inline-flex;
       align-items: center;
       gap: 6px;
-      font-size: 12px;
-      font-weight: 600;
-      padding: 4px 10px;
-      border-radius: 9999px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      font-family: 'JetBrains Mono', monospace;
     }
 
-    .service-status.online { color: #34d399; }
-    .service-status.standby { color: #94a3b8; }
+    .badge-featured::before {
+      content: '';
+      width: 4px;
+      height: 4px;
+      background: #fff;
+      border-radius: 50%;
+    }
+
+    .arrow-icon {
+      color: var(--text-tertiary);
+      transition: transform 0.25s ease, color 0.25s ease;
+      font-size: 14px;
+    }
+
+    .spotlight-card:hover .arrow-icon {
+      color: #fff;
+      transform: translate(2px, -2px);
+    }
 
     .card-title {
-      font-size: 20px;
-      font-weight: 700;
-      margin-bottom: 8px;
-      color: #fff;
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: #ffffff;
+      margin-bottom: 10px;
     }
 
     .card-desc {
       font-size: 14px;
-      color: var(--text-muted);
+      color: var(--text-secondary);
       line-height: 1.6;
-      margin-bottom: 20px;
+      margin-bottom: 28px;
       flex-grow: 1;
     }
 
-    .tags {
+    /* Specs Row */
+    .specs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-subtle);
+      margin-bottom: 8px;
+    }
+
+    .spec-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .spec-label {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .spec-value {
+      font-size: 13px;
+      font-family: var(--font-mono);
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    /* Inline Tags */
+    .tech-stack {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      margin-bottom: 24px;
+      margin-top: auto;
     }
 
-    .tag {
+    .tech-chip {
+      font-family: var(--font-mono);
       font-size: 12px;
-      padding: 4px 10px;
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.04);
-      color: #cbd5e1;
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: var(--text-secondary);
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 3px 8px;
+      border-radius: 6px;
     }
 
-    .action-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 12px 20px;
-      border-radius: 14px;
-      font-size: 14px;
-      font-weight: 600;
-      text-decoration: none;
-      transition: all 0.25s ease;
-      cursor: pointer;
-    }
-
-    .btn-primary {
-      background: var(--primary-gradient);
-      color: #fff;
-      border: none;
-      box-shadow: 0 4px 20px -2px rgba(99, 102, 241, 0.4);
-    }
-
-    .btn-primary:hover {
-      box-shadow: 0 8px 25px rgba(99, 102, 241, 0.6);
-      transform: translateY(-2px);
-    }
-
-    .btn-outline {
-      background: rgba(255, 255, 255, 0.05);
-      color: #f8fafc;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .btn-outline:hover {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: rgba(255, 255, 255, 0.25);
-    }
-
-    /* Hero Featured Card (IoT Platform) */
-    .hero-card {
-      background: linear-gradient(135deg, rgba(30, 27, 75, 0.7) 0%, rgba(15, 23, 42, 0.7) 100%);
-      border: 1px solid rgba(99, 102, 241, 0.25);
-    }
-
-    .tech-badges {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      background: rgba(0, 0, 0, 0.25);
-      padding: 14px;
+    /* Infra Matrix Section */
+    .infra-strip {
+      background: rgba(10, 10, 10, 0.4);
+      border: 1px solid var(--border-subtle);
       border-radius: 16px;
-      margin-bottom: 22px;
-    }
-
-    .tech-item {
+      padding: 24px 32px;
+      margin-top: 16px;
       display: flex;
-      flex-direction: column;
-      gap: 2px;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
     }
 
-    .tech-label {
-      font-size: 11px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .tech-val {
-      font-size: 13px;
-      font-weight: 700;
-      color: #e2e8f0;
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    /* Quick Tools inside Portal */
-    .toolbox {
+    .infra-item {
       display: flex;
-      flex-direction: column;
+      align-items: center;
       gap: 12px;
     }
 
-    .tool-row {
-      display: flex;
-      gap: 10px;
+    .infra-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
     }
 
-    .tool-input {
-      flex: 1;
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-      padding: 10px 14px;
-      color: #fff;
+    .infra-name {
       font-size: 13px;
-      font-family: 'JetBrains Mono', monospace;
-      outline: none;
+      font-weight: 500;
+      color: var(--text-primary);
     }
 
-    .tool-input:focus {
-      border-color: var(--primary);
+    .infra-provider {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-tertiary);
     }
 
-    .tool-btn {
-      padding: 0 16px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: #fff;
-      border-radius: 10px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .tool-btn:hover {
-      background: var(--primary);
-      border-color: var(--primary);
-    }
-
+    /* Footer */
     footer {
       margin-top: auto;
-      text-align: center;
-      padding: 40px 20px 20px;
-      color: var(--text-muted);
-      font-size: 13px;
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      border-top: 1px solid var(--border-subtle);
+      padding: 32px 0 48px;
     }
 
-    /* Responsive */
-    @media (max-width: 992px) {
-      .span-8, .span-4, .span-6 { grid-column: span 12; }
-      .tech-badges { grid-template-columns: 1fr; }
+    .footer-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      color: var(--text-tertiary);
+      font-family: var(--font-mono);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    .footer-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .footer-link:hover {
+      color: #fff;
+    }
+
+    @media (max-width: 900px) {
+      .col-8, .col-4, .col-6 { grid-column: span 12; }
+      .specs-grid { grid-template-columns: 1fr; }
+      .hero-title { font-size: 32px; }
+      .infra-strip { flex-direction: column; align-items: flex-start; }
     }
   </style>
 </head>
 <body>
-  <!-- Ambient Backdrop Glow -->
-  <div class="ambient-bg">
-    <div class="glow-orb-1"></div>
-    <div class="glow-orb-2"></div>
-    <div class="glow-orb-3"></div>
-  </div>
+  <div class="top-light-beam"></div>
+  <div class="background-pattern"></div>
 
   <div class="container">
     <!-- Header -->
     <header>
-      <div class="brand">
-        <div class="avatar-wrapper">
-          <div class="avatar">A</div>
-          <div class="status-badge" title="All Services Operational"></div>
-        </div>
-        <div class="brand-info">
-          <h1>Anakin's <span class="gradient-text">Matrix</span></h1>
-          <p><i class="fa-solid fa-code"></i> 全栈极客 & 工业架构师 · 核心项目与在线服务矩阵</p>
-        </div>
+      <div class="status-pill">
+        <span class="dot-live"></span>
+        <span>ALL SYSTEMS OPERATIONAL</span>
       </div>
-      <div class="header-actions">
-        <div class="radar-tag">
-          <span class="pulse-dot"></span>
-          <span>Matrix Online · 全集群就绪</span>
-        </div>
-      </div>
+      <h1 class="hero-title">Anakin <span>/ Engineering Matrix</span></h1>
+      <p class="hero-sub">
+        工业级云原生系统、时序遥测中台、分布式凭据架构与大模型智能体部署矩阵。
+      </p>
     </header>
 
-    <!-- Bento Grid -->
-    <main class="bento-grid">
-      <!-- 1. Hero: Anakin IoT 平台 -->
-      <section class="card span-8 hero-card">
-        <div class="card-top">
-          <div class="icon-box ib-indigo">
-            <i class="fa-solid fa-microchip"></i>
+    <!-- Cards Grid -->
+    <main class="grid">
+      <!-- 1. Anakin IoT (Main Core) -->
+      <a href="https://anaiot-backend.onrender.com" target="_blank" class="spotlight-card col-8">
+        <div class="card-content">
+          <div class="card-meta">
+            <span class="badge badge-featured">FLAGSHIP PLATFORM</span>
+            <span class="arrow-icon">↗</span>
           </div>
-          <div class="service-status online">
-            <i class="fa-solid fa-circle" style="font-size: 8px;"></i>
-            <span>PRODUCTION</span>
-          </div>
-        </div>
-        <h2 class="card-title">Anakin IoT · 工业物联网智能中台</h2>
-        <p class="card-desc">
-          高并发低延时的云原生工业物联与边缘采集管理中心。集成物模型标准化、规则引擎流式处理、设备 OTA 固件迭代、数字孪生与实时海量遥测指标监控。
-        </p>
-        <div class="tech-badges">
-          <div class="tech-item">
-            <span class="tech-label">核心内核</span>
-            <span class="tech-val">Spring Boot 3 + Netty</span>
-          </div>
-          <div class="tech-item">
-            <span class="tech-label">底层存储</span>
-            <span class="tech-val">TiDB Cloud + Supabase S3</span>
-          </div>
-          <div class="tech-item">
-            <span class="tech-label">AI 算力</span>
-            <span class="tech-val">DeepSeek V4.1 工业大脑</span>
+          <h2 class="card-title">Anakin IoT · 工业物联网智能中台</h2>
+          <p class="card-desc">
+            高并发低延时的云原生工业物联与边缘采集管理中心。集成物模型标准化、规则引擎流式处理、设备 OTA 固件迭代、数字孪生与实时海量遥测指标监控。
+          </p>
+          <div class="specs-grid">
+            <div class="spec-item">
+              <span class="spec-label">RUNTIME</span>
+              <span class="spec-value">Spring Boot 3 + Netty</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">PERSISTENCE</span>
+              <span class="spec-value">TiDB Cloud + Supabase S3</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">AI ENGINE</span>
+              <span class="spec-value">DeepSeek V4.1 工业大脑</span>
+            </div>
           </div>
         </div>
-        <div class="tags">
-          <span class="tag">#物模型解析</span>
-          <span class="tag">#时序遥测</span>
-          <span class="tag">#MQTT网关</span>
-          <span class="tag">#工业级高可用</span>
-        </div>
-        <div>
-          <a href="https://anaiot-backend.onrender.com" target="_blank" class="action-btn btn-primary">
-            <span>进入 IoT 平台</span>
-            <i class="fa-solid fa-arrow-up-right-from-square"></i>
-          </a>
-        </div>
-      </section>
+      </a>
 
-      <!-- 2. AI 工业运维助手 -->
-      <section class="card span-4">
-        <div class="card-top">
-          <div class="icon-box ib-cyan">
-            <i class="fa-solid fa-brain"></i>
+      <!-- 2. AI Agent Console -->
+      <a href="https://anaiot-backend.onrender.com" target="_blank" class="spotlight-card col-4">
+        <div class="card-content">
+          <div class="card-meta">
+            <span class="badge">AGENTIC AI</span>
+            <span class="arrow-icon">↗</span>
           </div>
-          <div class="service-status online">
-            <i class="fa-solid fa-bolt"></i>
-            <span>DEEPSEEK</span>
+          <h3 class="card-title">工业运维智能体</h3>
+          <p class="card-desc">
+            赣鄱词元算力底座驱动，专精设备故障排查、Modbus/PLC 规约逆向解析与告警联动推演。
+          </p>
+          <div class="tech-stack">
+            <span class="tech-chip">DeepSeek Flash</span>
+            <span class="tech-chip">SSE Streaming</span>
+            <span class="tech-chip">Token 计费</span>
           </div>
         </div>
-        <h3 class="card-title">工业 AI 智能助手</h3>
-        <p class="card-desc">
-          基于赣鄱词元算力底座，专门针对应急告警排查、设备故障诊断、Modbus/PLC 规约转换与物联运维调度的专业级 Agent。
-        </p>
-        <div class="tags">
-          <span class="tag">DeepSeek Flash</span>
-          <span class="tag">流式推演</span>
-          <span class="tag">告警诊断</span>
-        </div>
-        <a href="https://anaiot-backend.onrender.com" target="_blank" class="action-btn btn-outline">
-          <span>AI 诊断控制台</span>
-          <i class="fa-solid fa-chevron-right"></i>
-        </a>
-      </section>
+      </a>
 
-      <!-- 3. MovieHub 影视中心 -->
-      <section class="card span-4">
-        <div class="card-top">
-          <div class="icon-box ib-rose">
-            <i class="fa-solid fa-film"></i>
+      <!-- 3. MovieHub -->
+      <a href="https://moviehub-source-server.onrender.com" target="_blank" class="spotlight-card col-4">
+        <div class="card-content">
+          <div class="card-meta">
+            <span class="badge">STREAMING</span>
+            <span class="arrow-icon">↗</span>
           </div>
-          <div class="service-status online">
-            <i class="fa-solid fa-circle" style="font-size: 8px;"></i>
-            <span>LIVE</span>
+          <h3 class="card-title">MovieHub</h3>
+          <p class="card-desc">
+            高品质流媒体解析与多源内容索引中心。支持多源聚合、自适应倍速推流与极速检索。
+          </p>
+          <div class="tech-stack">
+            <span class="tech-chip">Multi-source</span>
+            <span class="tech-chip">HLS Stream</span>
           </div>
         </div>
-        <h3 class="card-title">MovieHub 影视聚合中心</h3>
-        <p class="card-desc">
-          高品质流媒体解析与多源内容索引中心。聚合各平台高清影视资源，具备极速检索与个性化播放体验。
-        </p>
-        <div class="tags">
-          <span class="tag">Spring Cloud</span>
-          <span class="tag">多源解析</span>
-          <span class="tag">流媒体加速</span>
-        </div>
-        <a href="https://moviehub-source-server.onrender.com" target="_blank" class="action-btn btn-outline">
-          <span>访问影视中心</span>
-          <i class="fa-solid fa-arrow-up-right-from-square"></i>
-        </a>
-      </section>
+      </a>
 
-      <!-- 4. MyMem 长期记忆 -->
-      <section class="card span-4">
-        <div class="card-top">
-          <div class="icon-box ib-violet">
-            <i class="fa-solid fa-infinity"></i>
+      <!-- 4. MyMem -->
+      <a href="https://mymem-wlxw.onrender.com" target="_blank" class="spotlight-card col-4">
+        <div class="card-content">
+          <div class="card-meta">
+            <span class="badge">KNOWLEDGE BASE</span>
+            <span class="arrow-icon">↗</span>
           </div>
-          <div class="service-status online">
-            <i class="fa-solid fa-database"></i>
-            <span>ACTIVE</span>
+          <h3 class="card-title">MyMem 知识中枢</h3>
+          <p class="card-desc">
+            智能体长期记忆持久化与知识检索向量库。支持上下文回溯与跨系统语义索引。
+          </p>
+          <div class="tech-stack">
+            <span class="tech-chip">Vector Embeddings</span>
+            <span class="tech-chip">MCP Protocol</span>
           </div>
         </div>
-        <h3 class="card-title">MyMem 知识与记忆中枢</h3>
-        <p class="card-desc">
-          AI 长期记忆持久化与知识检索向量库。为各类智能体提供会话上下文长期留存、经验回溯与跨系统语义索引。
-        </p>
-        <div class="tags">
-          <span class="tag">Vector DB</span>
-          <span class="tag">MCP Server</span>
-          <span class="tag">长期记忆</span>
-        </div>
-        <a href="https://mymem-wlxw.onrender.com" target="_blank" class="action-btn btn-outline">
-          <span>进入记忆中枢</span>
-          <i class="fa-solid fa-arrow-up-right-from-square"></i>
-        </a>
-      </section>
+      </a>
 
-      <!-- 5. Local Vault 安全保险库 -->
-      <section class="card span-4">
-        <div class="card-top">
-          <div class="icon-box ib-emerald">
-            <i class="fa-solid fa-shield-halved"></i>
+      <!-- 5. Password Vault -->
+      <a href="https://my-password-management.onrender.com/vault" target="_blank" class="spotlight-card col-4">
+        <div class="card-content">
+          <div class="card-meta">
+            <span class="badge">SECURITY</span>
+            <span class="arrow-icon">↗</span>
           </div>
-          <div class="service-status online">
-            <i class="fa-solid fa-lock"></i>
-            <span>ENCRYPTED</span>
+          <h3 class="card-title">Password Vault</h3>
+          <p class="card-desc">
+            端到端加密的安全凭证托管服务。管理云端所有 API Key、数据库连接与 S3 密钥。
+          </p>
+          <div class="tech-stack">
+            <span class="tech-chip">AES-256-GCM</span>
+            <span class="tech-chip">Zero-Knowledge</span>
           </div>
         </div>
-        <h3 class="card-title">Password Vault 保险库</h3>
-        <p class="card-desc">
-          端到端加密的高安全性凭证托管服务。管理云端所有 API Key、数据库连接、S3 存储密钥与基础设施访问权。
-        </p>
-        <div class="tags">
-          <span class="tag">AES-256-GCM</span>
-          <span class="tag">自动加锁</span>
-          <span class="tag">零明文暴露</span>
-        </div>
-        <a href="https://my-password-management.onrender.com/vault" target="_blank" class="action-btn btn-outline">
-          <span>打开安全库</span>
-          <i class="fa-solid fa-arrow-up-right-from-square"></i>
-        </a>
-      </section>
+      </a>
 
-      <!-- 6. 开发者极客实用工具箱 -->
-      <section class="card span-6">
-        <div class="card-top">
-          <div class="icon-box ib-amber">
-            <i class="fa-solid fa-toolbox"></i>
-          </div>
-          <div class="service-status standby">
-            <i class="fa-solid fa-terminal"></i>
-            <span>LOCAL UTILS</span>
+      <!-- 6. Infrastructure Matrix Strip -->
+      <div class="col-12 infra-strip">
+        <div class="infra-item">
+          <div class="infra-dot"></div>
+          <div>
+            <div class="infra-name">Render Singapore</div>
+            <div class="infra-provider">Compute & Edge CDN</div>
           </div>
         </div>
-        <h3 class="card-title">极客时间戳与 Base64 转换器</h3>
-        <p class="card-desc">日常联调与物联网报文分析开箱即用小工具。</p>
-        <div class="toolbox">
-          <div class="tool-row">
-            <input type="text" id="ts-input" class="tool-input" placeholder="输入 Unix 时间戳 (秒/毫秒)...">
-            <button class="tool-btn" onclick="convertTimestamp()">转换</button>
-          </div>
-          <div id="ts-result" style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #34d399; min-height: 20px;"></div>
-
-          <div class="tool-row">
-            <input type="text" id="b64-input" class="tool-input" placeholder="输入字符串进行 Base64 转换...">
-            <button class="tool-btn" onclick="base64Encode()">Base64 编码</button>
-          </div>
-          <div id="b64-result" style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #38bdf8; min-height: 20px; word-break: break-all;"></div>
-        </div>
-      </section>
-
-      <!-- 7. 系统技术拓扑 -->
-      <section class="card span-6">
-        <div class="card-top">
-          <div class="icon-box ib-indigo">
-            <i class="fa-solid fa-network-wired"></i>
-          </div>
-          <div class="service-status online">
-            <i class="fa-solid fa-cloud"></i>
-            <span>MULTI-CLOUD</span>
+        <div class="infra-item">
+          <div class="infra-dot"></div>
+          <div>
+            <div class="infra-name">TiDB Cloud Serverless</div>
+            <div class="infra-provider">Distributed Storage</div>
           </div>
         </div>
-        <h3 class="card-title">混合云架构总览</h3>
-        <p class="card-desc">
-          高可用分布式部署架构，覆盖跨地域算力、无服务计算与对象存储：
-        </p>
-        <div style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #cbd5e1; line-height: 1.8; background: rgba(0,0,0,0.3); padding: 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.06);">
-          <div>🟢 <b>计算节点</b>: Render Singapore (Docker 弹性容器)</div>
-          <div>🟢 <b>关系型数仓</b>: TiDB Cloud Serverless (分布式跨区)</div>
-          <div>🟢 <b>对象持久存储</b>: Supabase Storage (兼容 S3 标准)</div>
-          <div>🟢 <b>大模型推理</b>: 赣鄱词元 DeepSeek 算力集群</div>
+        <div class="infra-item">
+          <div class="infra-dot"></div>
+          <div>
+            <div class="infra-name">Supabase Storage</div>
+            <div class="infra-provider">S3 Compatible Bucket</div>
+          </div>
         </div>
-      </section>
+        <div class="infra-item">
+          <div class="infra-dot"></div>
+          <div>
+            <div class="infra-name">赣鄱词元算力中心</div>
+            <div class="infra-provider">DeepSeek LLM Cluster</div>
+          </div>
+        </div>
+      </div>
     </main>
-
-    <!-- Footer -->
-    <footer>
-      <p>© 2026 Anakin's Matrix · Powered by Render Global CDN & Cloud Architecture</p>
-    </footer>
   </div>
 
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div>© 2026 Anakin. Built for high reliability.</div>
+      <div class="footer-links">
+        <a href="https://github.com/berse1kguts-pixel/anakin-portal" target="_blank" class="footer-link">GitHub</a>
+        <a href="https://anaiot-backend.onrender.com" target="_blank" class="footer-link">IoT Console</a>
+      </div>
+    </div>
+  </footer>
+
   <script>
-    // 实用工具函数
-    function convertTimestamp() {
-      const val = document.getElementById('ts-input').value.trim();
-      const resEl = document.getElementById('ts-result');
-      if (!val) {
-        resEl.textContent = '当前时间: ' + new Date().toLocaleString('zh-CN', { hour12: false });
-        return;
-      }
-      let num = parseInt(val, 10);
-      if (isNaN(num)) {
-        resEl.textContent = '❌ 无效的时间戳';
-        return;
-      }
-      if (num < 10000000000) num *= 1000; // 秒转毫秒
-      const d = new Date(num);
-      resEl.textContent = '👉 ' + d.toLocaleString('zh-CN', { hour12: false }) + ' (东八区)';
-    }
-
-    function base64Encode() {
-      const val = document.getElementById('b64-input').value;
-      const resEl = document.getElementById('b64-result');
-      if (!val) {
-        resEl.textContent = '';
-        return;
-      }
-      try {
-        resEl.textContent = '👉 ' + btoa(unescape(encodeURIComponent(val)));
-      } catch (e) {
-        resEl.textContent = '❌ 转换失败';
-      }
-    }
-
-    // 初始化时展示当前时间戳
-    document.getElementById('ts-input').placeholder = '当前时间戳: ' + Math.floor(Date.now() / 1000);
+    // Linear-style dynamic spotlight mouse tracking
+    document.querySelectorAll('.spotlight-card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+      });
+    });
   </script>
 </body>
 </html>
